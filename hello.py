@@ -1,15 +1,23 @@
-def greet(world):
-    print('Hello ', 'world')
+import unittest
+from selenium import webdriver
 
-from unittest.mock import patch
+class WebsiteLoadingTest(unittest.TestCase):
 
-@patch('builtins.print')
-def test_greet(mock_print):
-    # The actual test
-    greet('world')
-    mock_print.assert_called_with('Hello ', 'John')
+    def setUp(self):
+        # Set up the WebDriver (assuming you have installed and configured it properly)
+        self.driver = webdriver.Chrome()
 
-    # Showing what is in mock
-    import sys
-    sys.stdout.write(str( mock_print.call_args ) + '\n')
-    sys.stdout.write(str( mock_print.call_args_list ) + '\n')
+    def tearDown(self):
+        # Quit the WebDriver
+        self.driver.quit()
+
+    def test_website_loading(self):
+        # Open the atg.world website
+        self.driver.get("https://www.atg.world")
+
+        # Verify that the website has loaded successfully
+        page_title = self.driver.title
+        self.assertEqual(page_title, "atg.world")
+
+if __name__ == "__main__":
+    unittest.main()
